@@ -109,15 +109,8 @@ EOF
 # bash
 echo -e "$BLUE ------------------------ bash -------------------------- $CLEAN"
 cp -rf ../etc/bashrc-ps /etc/
-cat >> /etc/skel/.bashrc << EOF
-
-source /etc/bashrc-ps
-EFO
-
-cat >> ~/.bashrc << EOF
-
-source /etc/bashrc-ps
-EOF
+sed -i '$a\source\ \/etc\/bashrc-ps' /etc/skel/.bashrc
+sed -i '$a\source\ \/etc\/bashrc-ps' ~/.bashrc
 
 # tmux
 echo -e "$BLUE ------------------------ tmux -------------------------- $CLEAN"
