@@ -110,6 +110,7 @@ EOF
 echo -e "$BLUE ------------------------ bash -------------------------- $CLEAN"
 cp -rf ../etc/bashrc-ps /etc/
 sed -i '$a\source\ \/etc\/bashrc-ps' /etc/skel/.bashrc
+sed -i '$a\source\ \/etc\/bashrc-ps' /root/.bashrc
 sed -i '$a\source\ \/etc\/bashrc-ps' ~/.bashrc
 
 # tmux
