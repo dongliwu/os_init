@@ -97,14 +97,11 @@ EOF
 
 # bash
 echo -e "$BLUE ------------------------ bash -------------------------- $CLEAN"
-cp -rf ../etc/bashrc-ps.sh /etc/
+cp -rf ../etc/bashrc-ps /etc/
 cat >> /etc/bashrc << EOF
 
 source /etc/bashrc-ps
 EOF
-
-# 使用/etc/skel目录自定义
-# 自定义包括PS1和HISTORY
 
 # tmux
 echo -e "$BLUE ------------------------ tmux -------------------------- $CLEAN"
@@ -166,5 +163,5 @@ sysctl -p
 echo -e "$BLUE ------------------------ end --------------------------- $CLEAN"
 echo  "Please run the command:"
 echo ""
-echo -e "$GREEN          source /etc/bashrc"
+echo -e "$GREEN          source /etc/bashrc $CLEAN"
 echo ""

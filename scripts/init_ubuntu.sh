@@ -25,7 +25,7 @@ CLEAN='\033[0m'
 cat << EOF
 +---------------------------------------------------------------+
 |                                                               |
-|                    Welcome to CentOS init                     |
+|                    Welcome to Ubuntu init                     |
 |                                  By: Liwu Dong                |
 |                                                               |
 +---------------------------------------------------------------+
@@ -46,7 +46,7 @@ function depends_install(){
 echo -e "$BLUE ------------------ install tools ----------------------- $CLEAN"
 echo -e "[${GREEN}Info${CLEAN}] Updating repository..."
 CODE_NAME=`lsb_release -c --short`
-cp /etc/apt/sources.list /etc/apt/sources.list.bak 
+cp /etc/apt/sources.list /etc/apt/sources.list.`date +%s`
 cat > /etc/apt/sources.list << EOF
 deb http://mirrors.aliyun.com/ubuntu/ ${CODE_NAME} main restricted universe multiverse
 deb http://mirrors.aliyun.com/ubuntu/ ${CODE_NAME}-security main restricted universe multiverse
@@ -60,7 +60,7 @@ deb-src http://mirrors.aliyun.com/ubuntu/ ${CODE_NAME}-proposed main restricted 
 deb-src http://mirrors.aliyun.com/ubuntu/ ${CODE_NAME}-backports main restricted universe multiverse
 EOF
 apt-get update > /dev/null 2>&1
-if [ $? -ne 0 ]; then
+if [ $? -eq 0 ]; then
    echo -e "[${GREEN}Info${CLEAN}] Update repository completed"
 else
    echo -e "[${RED}Error${CLEAN}] Update repository failed"
@@ -79,7 +79,7 @@ done
 echo -e "$BLUE ----------------------- sshd --------------------------- $CLEAN"
 sed -i "s/#UseDNS yes/UseDNS no/g" /etc/ssh/sshd_config
 sed -i "s/MaxAuthTries 3/MaxAuthTries 3/g" /etc/ssh/sshd_config
-service sshd restart
+service ssh restart
 
 # crontab
 echo -e "$BLUE ---------------------- crontab ------------------------- $CLEAN"
@@ -108,7 +108,7 @@ EOF
 
 # bash
 echo -e "$BLUE ------------------------ bash -------------------------- $CLEAN"
-cp -rf ../etc/bashrc-ps.sh /etc/
+cp -rf ../etc/bashrc-ps /etc/
 cat >> /etc/skel/.bashrc << EOF
 
 source /etc/bashrc-ps
@@ -118,9 +118,6 @@ cat >> ~/.bashrc << EOF
 
 source /etc/bashrc-ps
 EOF
-
-# 使用/etc/skel目录自定义
-# 自定义包括PS1和HISTORY
 
 # tmux
 echo -e "$BLUE ------------------------ tmux -------------------------- $CLEAN"
@@ -182,5 +179,6 @@ sysctl -p
 echo -e "$BLUE ------------------------ end --------------------------- $CLEAN"
 echo  "Please run the command:"
 echo ""
-echo -e "$GREEN          source /etc/bashrc"
+echo -e "$GREEN          sed -i '$a\source\ \/etc\/bashrc-ps' ~/.bashrc $CLEAN"
+echo -e "$GREEN          source ~/.bashrc $CLEAN"
 echo ""
