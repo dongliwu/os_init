@@ -96,7 +96,7 @@ mv PowerlineSymbols.otf /usr/share/fonts/
 mv 10-powerline-symbols.conf /etc/fonts/conf.d/
 pl_location=`pip show powerline-status| grep Location | awk '{print $2}'`
 
-cat >> /etc/vimrc << EOF
+cat >> /etc/vim/vimrc << EOF
 
 " Custom by Lyon
 set rtp+=${pl_location}/powerline/bindings/vim/
@@ -128,6 +128,8 @@ cat > /etc/security/limits.d/90-nofile.conf << EOF
 * soft nofile 204800
 * hard nofile 204800
 EOF
+
+ulimit -SHn 204800
 
 # sysctl
 echo -e "$BLUE ---------------------- sysctl ------------------------- $CLEAN"

@@ -120,6 +120,8 @@ cat > /etc/security/limits.d/90-nofile.conf << EOF
 * hard nofile 204800
 EOF
 
+ulimit -SHn 204800
+
 # sysctl
 echo -e "$BLUE ---------------------- sysctl ------------------------- $CLEAN"
 cat > /etc/sysctl.conf << EOF
