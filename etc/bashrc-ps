@@ -1,0 +1,64 @@
+if [ "${TERM}"x == "xterm-256color"x ]; then
+   __TERM_COLORS="256";
+fi
+
+if [ "${TERM}"x == "linux"x ]; then
+   __TERM_COLORS="256";
+fi
+
+if [ "${TERM}"x == "xterm"x ]; then
+
+   if tty | grep "ttyv" > /dev/null; then
+      __TERM_COLORS="16";
+   else
+      __TERM_COLORS="256";
+   fi
+fi
+
+if [ "${TERM}"x == "screen"x ]; then
+   __TERM_COLORS="256";
+fi
+
+if [ "${__TERM_COLORS}"x == ""x ]
+   then
+   __TPUT_REPORTS=`tput colors 2> /dev/null`;
+   if [ -z "${__TPUT_REPORTS}" ]; then
+      __TERM_COLORS="16";
+   elif [ $__TPUT_REPORTS -gt 126 ]; then
+      __TERM_COLORS="256";
+   else
+      __TERM_COLORS="16";
+   fi
+fi
+
+if [[ -s /etc/redhat-release ]];then
+   VERSION=`grep -oE  "[0-9.]+" /etc/redhat-release`
+   SYSTEM=`cat /etc/redhat-release | awk '{print $1}'`
+   OS="$SYSTEM $VERSION"
+elif [[ -s /etc/issue ]];then
+   OS=`cat /etc/issue| awk '{print $1" "$2" "$3}'| strings`
+else
+   OS='Unknow'
+fi
+
+# TimeZone
+export TZ="/etc/localtime";
+TZABV=`date +%Z`;
+
+if [ ${UID}x == "0"x ]; then
+   # For root
+   if [ "${__TERM_COLORS}"x == "256"x ]; then
+      PS1='\n\[\e[38;05;236m\]-\[\e[0m\] \[\e[38;05;196m\]\u\[\e[0m\]\[\e[38;05;236m\] - \[\e[0m\]\[\e[38;05;147m\]\h\[\e[0m\]\[\e[38;05;103m\].`echo \H | sed "s/\h.//g"`\[\e[0m\]\[\e[38;05;236m\] -\[\e[0m\] \[\e[38;05;184m\]\w\[\e[0m\]\[\e[38;05;236m\] - \[\e[0m\]\[\e[38;05;147m\]${OS}\[\e[0m\] \[\e[38;05;236m\]-\[\e[0m\] \[\e[38;05;144m\]\t\[\e[0m\] \[\e[38;05;101m\]${TZABV}\[\e[0m\]\[\e[38;05;236m\] \[\e[0m\]\n\[\e[38;05;236m\]>\[\e[0m\]\[\e[38;05;239m\]>\[\e[0m\]\[\e[38;05;243m\]>\[\e[0m\]\[\e[38;05;246m\]>\[\e[0m\] ';
+   else
+      PS1='\n\[\e[30;1m\]-\[\e[0m \[\e[31;1m\]\u\[\e[0m\[\e[30;1m\] - \[\e[0m\[\e[36;1m\]\h\[\e[0m\[\e[36m\].`echo \H | sed "s/\h.//g"`\[\e[0m\[\e[30;1m\] -\[\e[0m \[\e[33;1m\]\w\[\e[0m\[\e[30;1m\] - \[\e[0m\[\e[37;1m\]\t\[\e[0m \[\e[37m\]${TZABV}\[\e[0m\n\[\e[30;1m\]>\[\e[0m\[\e[30;1m\]>\[\e[0m\[\e[37m\]>\[\e[0m\[\e[37;1m\]>\[\e[0m\] ';
+   fi
+else
+   # For user
+   if [ "${__TERM_COLORS}"x == "256"x ]; then
+      PS1='\n\[\e[38;05;236m\]-\[\e[0m\] \[\e[38;05;107m\]\u\[\e[0m\]\[\e[38;05;236m\] - \[\e[0m\]\[\e[38;05;147m\]\h\[\e[0m\]\[\e[38;05;103m\].`echo \H | sed "s/\h.//g"`\[\e[0m\]\[\e[38;05;236m\] -\[\e[0m\] \[\e[38;05;184m\]\w\[\e[0m\]\[\e[38;05;236m\] - \[\e[0m\]\[\e[38;05;147m\]${OS}\[\e[0m\] \[\e[38;05;236m\]-\[\e[0m\] \[\e[0m\]\[\e[38;05;144m\]\t\[\e[0m\] \[\e[38;05;101m\]${TZABV}\[\e[0m\]\[\e[38;05;236m\] \[\e[0m\]\n\[\e[38;05;236m\]>\[\e[0m\]\[\e[38;05;239m\]>\[\e[0m\]\[\e[38;05;243m\]>\[\e[0m\]\[\e[38;05;246m\]>\[\e[0m\] ';
+   else
+      PS1='\n\[\e[30;1m\]-\[\e[0m \[\e[32;1m\]\u\[\e[0m\[\e[30;1m\] - \[\e[0m\[\e[36;1m\]\h\[\e[0m\[\e[36m\].`echo \H | sed "s/\h.//g"`\[\e[0m\[\e[30;1m\] -\[\e[0m \[\e[33;1m\]\w\[\e[0m\[\e[30;1m\] - \[\e[0m\[\e[37;1m\]\t\[\e[0m \[\e[37m\]${TZABV}\[\e[0m\n\[\e[30;1m\]>\[\e[0m\[\e[30;1m\]>\[\e[0m\[\e[37m\]>\[\e[0m\[\e[37;1m\]>\[\e[0m\] ';
+   fi
+fi
+
+export PS1;
