@@ -41,6 +41,9 @@ else
    OS='Unknow'
 fi
 
+# Title
+PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD/$HOME/~}\007"'
+
 # TimeZone
 export TZ="/etc/localtime";
 TZABV=`date +%Z`;
