@@ -175,6 +175,5 @@ sysctl -p
 echo -e "$BLUE ------------------------ end --------------------------- $CLEAN"
 echo  "Please run the command:"
 echo ""
-echo -e "$GREEN          sed -i '$a\source\ \/etc\/bashrc-ps' ~/.bashrc $CLEAN"
 echo -e "$GREEN          source ~/.bashrc $CLEAN"
 echo ""
