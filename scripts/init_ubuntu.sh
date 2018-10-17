@@ -104,6 +104,7 @@ set laststatus=2
 set t_Co=256
 set nu
 set ts=4
+set sw=4
 EOF
 
 # bash
