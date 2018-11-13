@@ -123,15 +123,15 @@ EOF
 # ulimit
 echo -e "$BLUE ----------------------- ulimit ------------------------- $CLEAN"
 cat > /etc/security/limits.d/90-nproc.conf << EOF
-* soft nproc 204800
-* hard nproc 204800
+* soft nproc 65536
+* hard nproc 65536
 EOF
 cat > /etc/security/limits.d/90-nofile.conf << EOF
-* soft nofile 204800
-* hard nofile 204800
+* soft nofile 65536
+* hard nofile 65536
 EOF
 
-ulimit -SHn 204800
+ulimit -SHn 65536
 
 # sysctl
 echo -e "$BLUE ---------------------- sysctl ------------------------- $CLEAN"
